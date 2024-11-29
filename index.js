@@ -3,6 +3,7 @@ const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
 const { token } = require('./config.json');
 const { LoadMangaList } = require('./services/mangaService')
+const { GenerateJobs: GenerateJob } = require('./services/scheduleService')
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
@@ -28,6 +29,7 @@ for (const folder of commandFolders) {
 client.once(Events.ClientReady, async readyClient => {
 	console.log(`Ready! Logged in as ${readyClient.user.tag}`);
 	await LoadMangaList();
+	GenerateJob();
 });
 
 client.on(Events.InteractionCreate, async interaction => {
